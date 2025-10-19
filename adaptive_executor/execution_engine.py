@@ -38,7 +38,7 @@ class ExecutionEngine:
             
             # Authorize connection
             auth_message = {
-                "authorize": DERIV_CONFIG.APP_ID
+                "authorize": DERIV_CONFIG.TOKEN
             }
             await self.websocket.send(json.dumps(auth_message))
             response = await self.websocket.recv()
