@@ -78,7 +78,7 @@ class DerivConfig:
         ]
         
         # API endpoints
-        self.WEBSOCKET_URL = "wss://ws.binaryws.com/websockets/v3"
+        self.WEBSOCKET_URL = "wss://ws.binaryws.com/websockets/v3?app_id="+os.getenv("DERIV_APP_ID")
         self.API_URL = "https://api.deriv.com"
 
 class DataConfig:
