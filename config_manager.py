@@ -22,7 +22,8 @@ class ConfigManager:
             "deriv": {
                 "app_id": os.getenv("DERIV_APP_ID", "1089"),
                 "account_type": os.getenv("DERIV_ACCOUNT_TYPE", "demo"),
-                "symbols": ["1HZ100V", "1HZ150V", "BOOM1000", "CRASH1000"]
+                "symbols": ["R_10", "R_25", "R_50", ""R_75","R_100"],
+                "token" : os.getenv("DERIV_TOKEN")
             },
             "trading": {
                 "initial_balance": 10000,
