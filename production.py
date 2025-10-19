@@ -18,8 +18,9 @@ class ProductionConfig:
     def setup_environment(self):
         """Setup production environment variables"""
         # Deriv API Configuration from Environment Variables
-        os.environ.setdefault('DERIV_APP_ID', os.getenv('DERIV_APP_ID', '1089'))
-        os.environ.setdefault('DERIV_ACCOUNT_TYPE', os.getenv('DERIV_ACCOUNT_TYPE', 'demo'))
+        os.environ.setdefault('DERIV_APP_ID', os.getenv('DERIV_APP_ID'))
+        os.environ.setdefault('DERIV_ACCOUNT_TYPE', os.getenv('DERIV_ACCOUNT_TYPE')),
+        os.environ.setdefault('DERIV_TOKEN', os.getenv('DERIV_TOKEN'))
         
         # Database configuration
         os.environ.setdefault('DB_PATH', os.getenv('DB_PATH', 'trading_data.db'))
