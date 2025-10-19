@@ -86,7 +86,7 @@ class DataArchaeologist:
     async def connect_deriv_websocket(self):
         """Establish WebSocket connection to Deriv"""
         try:
-            self.websocket = await websockets.connect(DERIV_CONFIG.WEBSOCKET_URL+'?app_id='+CONFIG.APP_ID)
+            self.websocket = await websockets.connect(DERIV_CONFIG.WEBSOCKET_URL)
             
             # Authorize connection
             auth_message = {
