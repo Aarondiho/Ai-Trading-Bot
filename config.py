@@ -64,16 +64,17 @@ class DeploymentPhases:
 class DerivConfig:
     """Deriv API configuration"""
     def __init__(self):
-        self.APP_ID = os.getenv('DERIV_APP_ID', '1089')
-        self.ACCOUNT_TYPE = os.getenv('DERIV_ACCOUNT_TYPE', 'demo')  # demo or real
+        self.APP_ID = os.getenv('DERIV_APP_ID')
+        self.ACCOUNT_TYPE = os.getenv('DERIV_ACCOUNT_TYPE')  # demo or real
+        self.TOKEN = os.getenv('DERIV_TOKEN')
         
         # Trading symbols (Deriv Synthetic Indices)
         self.SYMBOLS = [
-            '1HZ100V',    # Volatility 100 Index
-            '1HZ150V',    # Volatility 150 Index 
-            '1HZ250V',    # Volatility 250 Index
-            'BOOM1000',   # Boom 1000 Index
-            'CRASH1000',  # Crash 1000 Index
+            'R_10', # Volatility 10 Index
+            'R_25', # Volatility 25 Index
+            'R_50',    # Volatility 50 Index 
+            'R_75',    # Volatility 75 Index
+            'R_100'  # Volatility 100 Index
         ]
         
         # API endpoints
