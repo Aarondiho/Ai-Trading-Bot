@@ -18,7 +18,7 @@ class ExecutionEngine:
     
     def __init__(self):
         self.websocket = None
-        self.is_connected = False
+        self.is_connected = True
         self.pending_orders = {}
         self.open_positions = {}
         self.execution_history = []
@@ -36,17 +36,6 @@ class ExecutionEngine:
         try:
             self.websocket = await websockets.connect(DERIV_CONFIG.WEBSOCKET_URL)
             
-            # Authorize connection
-            auth_message = {
-                "authorize": DERIV_CONFIG.TOKEN
-            }
-            await self.websocket.send(json.dumps(auth_message))
-            response = await self.websocket.recv()
-            
-            auth_data = json.loads(response)
-            if 'error' in auth_data:
-                logging.error(f"❌ API authorization failed: {auth_data['error']}")
-                return False
             
             self.is_connected = True
             logging.info("✅ Execution engine connected to Deriv API")

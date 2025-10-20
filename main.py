@@ -7,12 +7,14 @@ import asyncio
 import logging
 import signal
 import sys
+import pandas as pd
+import numpy as np
 import time
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional
 
 # Import all system components
-from config import PHASES, DERIV_CONFIG, ORCHESTRATOR
+from config import PHASES, DERIV_CONFIG
 from data_archaeologist.data_collector import DATA_ARCHAEOLOGIST
 from data_archaeologist.pattern_detector import PATTERN_ARCHAEOLOGIST
 from data_archaeologist.regime_classifier import STATE_CLASSIFIER
@@ -25,6 +27,7 @@ from adaptive_executor.execution_engine import EXECUTION_ENGINE
 from meta_learner.performance_analyzer import PERFORMANCE_ANALYZER
 from meta_learner.knowledge_preserver import KNOWLEDGE_BANK
 from meta_learner.continuous_adapter import CONTINUOUS_ADAPTER
+from core.deployment_orchestrator import ORCHESTRATOR
 
 class PlatformMindReader:
     """Main application class for the Platform Mind Reader trading system"""
@@ -33,6 +36,7 @@ class PlatformMindReader:
         self.is_running = False
         self.start_time = None
         self.cycle_count = 0
+        self.start_count = 0
         self.system_health = "initializing"
         
         # Component status tracking
@@ -138,10 +142,13 @@ class PlatformMindReader:
         while self.is_running:
             try:
                 # Collect historical data on first run
-                if self.cycle_count == 0:
+                if self.start_count == 0:
+                    self.start_count += 1
+                    
                     for symbol in DERIV_CONFIG.SYMBOLS:
-                        await DATA_ARCHAEOLOGIST.collect_historical_data(symbol, days=30)
-                
+                        await DATA_ARCHAEOLOGIST.collect_historical_data(symbol, days=180)
+                        
+
                 # Start real-time collection
                 await DATA_ARCHAEOLOGIST.start_real_time_collection()
                 

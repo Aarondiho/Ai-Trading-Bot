@@ -9,6 +9,14 @@ import logging
 import sys
 import os
 from datetime import datetime
+from config import PHASES, DERIV_CONFIG
+from core.deployment_orchestrator import ORCHESTRATOR
+
+
+logging.basicConfig(
+    level=logging.INFO,  # Set the minimum level to INFO
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 # Add production configuration
 from production import PRODUCTION_CONFIG, HEALTH_MONITOR

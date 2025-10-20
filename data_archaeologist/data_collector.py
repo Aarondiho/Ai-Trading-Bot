@@ -107,12 +107,13 @@ class DataArchaeologist:
             logging.info(f"⏸️ Data collection paused for {symbol}")
             return
         
+        
         try:
             # Request historical data
             history_request = {
                 "ticks_history": symbol,
                 "adjust_start_time": 1,
-                "count": days * 24 * 60,  # Approximate minute data
+                "count": days*24*60*60,  # Approximate second data
                 "end": "latest",
                 "style": "ticks"
             }
@@ -120,14 +121,21 @@ class DataArchaeologist:
             await self.websocket.send(json.dumps(history_request))
             response = await self.websocket.recv()
             data = json.loads(response)
+
             
-            if 'history' in data and 'prices' in data['history']:
-                prices = data['history']['prices']
-                times = data['history']['times']
-                
+            
+           
+
+            if 'historyData' in data and 'prices' in data['historyData']:
+                prices = data['historyData']['prices']
+                times = data['historyData']['times']
+
+                logging.info(f"✅ Collected {len(prices)} historical ticks for {symbol}")
+
+
                 # Store historical data
                 self._store_historical_ticks(symbol, prices, times)
-                logging.info(f"✅ Collected {len(prices)} historical ticks for {symbol}")
+                
                 
         except Exception as e:
             logging.error(f"❌ Historical data collection failed for {symbol}: {e}")
@@ -158,7 +166,7 @@ class DataArchaeologist:
             try:
                 message = await self.websocket.recv()
                 data = json.loads(message)
-                
+         
                 if 'tick' in data:
                     tick = data['tick']
                     symbol = tick['symbol']
@@ -194,11 +202,11 @@ class DataArchaeologist:
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (
                 symbol,
-                datetime.fromtimestamp(tick['quote_time']),
+                datetime.fromtimestamp(tick['epoch']),
                 tick.get('bid', tick['quote']),
                 tick.get('ask', tick['quote']),
                 tick['quote'],
-                tick['quote_time']
+                tick['epoch']
             ))
             self.db_connection.commit()
         except Exception as e:

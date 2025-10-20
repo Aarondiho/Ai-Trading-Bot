@@ -84,8 +84,8 @@ class PatternArchaeologist:
         df['acceleration'] = df['returns'].diff()
         
         # Remove NaN values
-        df = df.fillna(method='bfill').fillna(method='ffill').fillna(0)
-        
+        df = df.bfill().ffill().fillna(0)
+
         return df
     
     def _calculate_bollinger_position(self, df: pd.DataFrame) -> pd.DataFrame:

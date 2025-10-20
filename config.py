@@ -6,6 +6,10 @@ Core configuration for the entire trading system
 import os
 from datetime import time
 from typing import Dict, List
+from dotenv import load_dotenv
+
+load_dotenv()  # This loads variables from .env into the environment
+
 
 class DeploymentPhases:
     """Control which phases are active"""
@@ -78,7 +82,7 @@ class DerivConfig:
         ]
         
         # API endpoints
-        self.WEBSOCKET_URL = "wss://ws.binaryws.com/websockets/v3?app_id="+os.getenv("DERIV_APP_ID")
+        self.WEBSOCKET_URL = "wss://ws.binaryws.com/websockets/v3?app_id="+str(os.getenv("DERIV_APP_ID"))
         self.API_URL = "https://api.deriv.com"
 
 class DataConfig:

@@ -4,7 +4,8 @@ Makes our AI trading system production-ready
 """
 
 import os
-import logging
+import logging 
+from logging.handlers import RotatingFileHandler
 from datetime import datetime
 
 class ProductionConfig:
@@ -18,16 +19,16 @@ class ProductionConfig:
     def setup_environment(self):
         """Setup production environment variables"""
         # Deriv API Configuration from Environment Variables
-        os.environ.setdefault('DERIV_APP_ID', os.getenv('DERIV_APP_ID'))
-        os.environ.setdefault('DERIV_ACCOUNT_TYPE', os.getenv('DERIV_ACCOUNT_TYPE')),
-        os.environ.setdefault('DERIV_TOKEN', os.getenv('DERIV_TOKEN'))
+        os.environ.setdefault('DERIV_APP_ID', str(os.getenv('DERIV_APP_ID')))
+        os.environ.setdefault('DERIV_ACCOUNT_TYPE', str(os.getenv('DERIV_ACCOUNT_TYPE')))
+        os.environ.setdefault('DERIV_TOKEN', str(os.getenv('DERIV_TOKEN')))
         
         # Database configuration
-        os.environ.setdefault('DB_PATH', os.getenv('DB_PATH', 'trading_data.db'))
+        os.environ.setdefault('DB_PATH', str(os.getenv('DB_PATH', 'trading_data.db')))
         
         # Security settings
-        os.environ.setdefault('ENCRYPTION_KEY', os.getenv('ENCRYPTION_KEY', 'change-in-production'))
-    
+        os.environ.setdefault('ENCRYPTION_KEY', str(os.getenv('ENCRYPTION_KEY', 'change-in-production')))
+
     def setup_production_logging(self):
         """Setup production-appropriate logging"""
         log_directory = "logs"
@@ -40,7 +41,7 @@ class ProductionConfig:
             level=logging.INFO,
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             handlers=[
-                logging.FileHandler(log_filename, maxBytes=10*1024*1024, backupCount=5),  # 10MB files, keep 5
+                RotatingFileHandler(log_filename, maxBytes=10*1024*1024, backupCount=5),  # 10MB files, keep 5
                 logging.StreamHandler()
             ]
         )
